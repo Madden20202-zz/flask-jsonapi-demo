@@ -20,6 +20,11 @@ class Artist(db.Model):
 db.create_all()
 
 # Abstraction layer
+
+# Why add this? 
+# Abstraction layers allow devs to get control over 
+# how any data is exposed to the user by the api. 
+# This follows the Least Privilege principle
 from marshmallow_jsonapi.flask import Schema 
 from marshmallow_jsonapi import fields
 
