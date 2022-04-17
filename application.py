@@ -41,3 +41,5 @@ class ArtistSchema(Schema):
         genre = fields.Str()
 
 # Resource Management
+from flask_rest_jsonapi import Api, ResourceDetail, ResourceList
+
