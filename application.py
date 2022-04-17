@@ -39,3 +39,5 @@ class ArtistSchema(Schema):
         name = fields.Str(required=True)
         birth_year = fields.Integer(load_only=True)
         genre = fields.Str()
+
+# Resource Management
