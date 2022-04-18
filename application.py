@@ -41,6 +41,14 @@ class ArtistSchema(Schema):
         genre = fields.Str()
 
 # Resource Management
+
+# Each resource manager is a class that inherits from 
+# the Flask-REST-JSONAPI classes under these notes
+
+# Two attributes are taken, schema which tells the resource 
+# layer what part of the abstraction level is to be used. Data_layer 
+# indicates the session and data model to be used 
+
 from flask_rest_jsonapi import Api, ResourceDetail, ResourceList
 
 class ArtistMany(ResourceList):
@@ -57,6 +65,10 @@ class ArtistOne(ResourceDetail):
         'model': Artist
         }
 
+# All routes need end points in order to 
+# create a proper routing system 
+# Three arguments are needed, the 
+# data abstraction layer class, endpoint name, and the url path
 api = Api(app)
 api.route(ArtistMany, 'artist_many', '/artists')
 api.route(ArtistOne, 'artist_one', '/artists/<int: id>')
