@@ -107,6 +107,8 @@ class ArtistArtwork(ResourceRelationship):
 api = Api(app)
 api.route(ArtistMany, 'artist_many', '/artists')
 api.route(ArtistOne, 'artist_one', '/artists/<int: id>')
+api.route(AritstArtwork, 'artist_artworks',
+    '/artists/<int:id>/relationships/artworks')
 
 # Main route for debug mode
 if __name__ == '__main__':
