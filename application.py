@@ -39,7 +39,23 @@ class ArtistSchema(Schema):
         name = fields.Str(required=True)
         birth_year = fields.Integer(load_only=True)
         genre = fields.Str()
+        artworks = Relationship(self_view = 'artist_artworks',
+            self_view_kwargs = {'id': '<id>'},
+            related_view = 'artwork_many',
+            many = True,
+            schema = 'ArtworkSchema',
+            type_ = 'artwork')
 
+class ArtworkSchema(Schema):
+    class Meta:
+        type_ = 'artwork'
+        self_view = 'artwork_one'
+        self_view_kwargs = {'id': '<id>'}
+        self_view_many = 'artwork_many'
+
+    id = fields.Integer()
+    title = fields.Str(required=True)
+    artist_id = fields.Integer(required=True)
 # Resource Management
 
 # Each resource manager is a class that inherits from 
@@ -65,6 +81,25 @@ class ArtistOne(ResourceDetail):
         'model': Artist
         }
 
+# New resource managers for accessing networks 
+# repeatedly and to allow access the relationship
+# between artwork and artist
+
+class ArtworkMany(ResourceList):
+    schema = ArtworkSchema
+    data_layer = {'session': db.session,
+        'model': Artwork}
+
+class ArtworkOne(ResourceDetail):
+    schema = ArtworkSchema
+    data_layer = {'session': db.session,
+        'model': Artwork}
+
+class ArtistArtwork(ResourceRelationship):
+    schema = ArtistSchema
+    data_layer = {'session': db.session,
+        'model': Artist}
+
 # All routes need end points in order to 
 # create a proper routing system 
 # Three arguments are needed, the 
@@ -72,7 +107,29 @@ class ArtistOne(ResourceDetail):
 api = Api(app)
 api.route(ArtistMany, 'artist_many', '/artists')
 api.route(ArtistOne, 'artist_one', '/artists/<int: id>')
+api.route(AritstArtwork, 'artist_artworks',
+    '/artists/<int:id>/relationships/artworks')
 
 # Main route for debug mode
 if __name__ == '__main__':
     app.run(debug=True)
+
+# What is a Relationship?
+# Often, data in one table is related to 
+# data within another. For example, an artist 
+# with their artwork. The artist table is one the 
+# artwork table is the other table. This is now
+# able to be compared and brought together, so 
+# data from both tables may be queried simultaneously
+
+from marshmallow_jsonapi.flask import Relationship
+from flask_rest_jsonapi import ResourceRelationship
+
+# Define the Artwork Table
+class Artwork(db.model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    artist_id = db.Column(db.Integer,
+        db.ForeignKey('artist.id'))
+    artist = db.relationship('Artist', 
+        backref=db.backref('artworks'))
