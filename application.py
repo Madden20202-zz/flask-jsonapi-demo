@@ -85,6 +85,21 @@ class ArtistOne(ResourceDetail):
 # repeatedly and to allow access the relationship
 # between artwork and artist
 
+class ArtworkMany(ResourceList):
+    schema = ArtworkSchema
+    data_layer = {'session': db.session,
+        'model': Artwork}
+
+class ArtworkOne(ResourceDetail):
+    schema = ArtworkSchema
+    data_layer = {'session': db.session,
+        'model': Artwork}
+
+class ArtistArtwork(ResourceRelationship):
+    schema = ArtistSchema
+    data_layer = {'session': db.session,
+        'model': Artist}
+
 # All routes need end points in order to 
 # create a proper routing system 
 # Three arguments are needed, the 
