@@ -76,3 +76,16 @@ api.route(ArtistOne, 'artist_one', '/artists/<int: id>')
 # Main route for debug mode
 if __name__ == '__main__':
     app.run(debug=True)
+
+# What is a Relationship?
+# Often, data in one table is related to 
+# data within another. For example, an artist 
+# with their artwork. The artist table is one the 
+# artwork table is the other table. This is now
+# able to be compared and brought together, so 
+# data from both tables may be queried simultaneously
+
+from marshmallow_jsonapi.flask import Relationship
+from flask_rest_jsonapi import ResourceRelationship
+
+#
