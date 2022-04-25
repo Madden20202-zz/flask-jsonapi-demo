@@ -81,6 +81,10 @@ class ArtistOne(ResourceDetail):
         'model': Artist
         }
 
+# New resource managers for accessing networks 
+# repeatedly and to allow access the relationship
+# between artwork and artist
+
 # All routes need end points in order to 
 # create a proper routing system 
 # Three arguments are needed, the 
