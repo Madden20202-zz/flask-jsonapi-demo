@@ -39,6 +39,12 @@ class ArtistSchema(Schema):
         name = fields.Str(required=True)
         birth_year = fields.Integer(load_only=True)
         genre = fields.Str()
+        artworks = Relationship(self_view = 'artist_artworks',
+            self_view_kwargs = {'id': '<id>'},
+            related_view = 'artwork_many',
+            many = True,
+            schema = 'ArtworkSchema',
+            type_ = 'artwork')
 
 # Resource Management
 
