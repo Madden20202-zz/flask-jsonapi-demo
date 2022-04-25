@@ -46,6 +46,16 @@ class ArtistSchema(Schema):
             schema = 'ArtworkSchema',
             type_ = 'artwork')
 
+class ArtworkSchema(Schema):
+    class Meta:
+        type_ = 'artwork'
+        self_view = 'artwork_one'
+        self_view_kwargs = {'id': '<id>'}
+        self_view_many = 'artwork_many'
+
+    id = fields.Integer()
+    title = fields.Str(required=True)
+    artist_id = fields.Integer(required=True)
 # Resource Management
 
 # Each resource manager is a class that inherits from 
