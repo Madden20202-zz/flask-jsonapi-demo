@@ -88,4 +88,11 @@ if __name__ == '__main__':
 from marshmallow_jsonapi.flask import Relationship
 from flask_rest_jsonapi import ResourceRelationship
 
-#
+# Define the Artwork Table
+class Artwork(db.model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
+    artist_id = db.Column(db.Integer,
+        db.ForeignKey('artist.id'))
+    artist = db.relationship('Artist', 
+        backref=db.backref('artworks'))
